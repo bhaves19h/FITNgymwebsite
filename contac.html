@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+  <div class="contact_us">
+    <div class="responsive-container-block container">
+      <form id="contactForm" action="http://localhost:3000/submit-form" method="POST">
+        <p class="text-blk contact-head">Get in touch</p>
+        <p class="text-blk contact-subhead">Get in touch with us and our team, and if you have any query, you can ask in
+          the message box.</p>
+        <div class="container-block form-wrapper">
+          <div class="responsive-container-block">
+            <div class="responsive-cell-block wk-ipadp-6 wk-tab-12 wk-mobile-12 wk-desk-6" id="i10mt-4">
+              <p class="text-blk input-title">First Name</p>
+              <input class="input" id="FName" name="FName" required>
+            </div>
+            <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+              <p class="text-blk input-title">Last Name</p>
+              <input class="input" id="LName" name="LName" required>
+            </div>
+            <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+              <p class="text-blk input-title">Email</p>
+              <input class="input" id="Email" name="Email" required>
+            </div>
+            <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+              <p class="text-blk input-title">Phone No.</p>
+              <input class="input" id="Phone" name="Phone" required>
+            </div>
+            <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i634i-4">
+              <p class="text-blk input-title">Message</p>
+              <textarea class="textinput" id="Message" name="Message" placeholder="Write your message..."
+                required></textarea>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn" id="send-message">
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Collect form data
+      const formData = {
+        FName: document.getElementById('FName').value,
+        LName: document.getElementById('LName').value,
+        Email: document.getElementById('Email').value,
+        Phone: document.getElementById('Phone').value,
+        Message: document.getElementById('Message').value
+      };
+
+      // Send the form data as JSON using fetch
+      fetch('http://localhost:3000/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Message sent successfully:', data); // Log the server response for debugging
+
+          // Redirect to the thank-you page
+          window.location.href = "thank-you.html";
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+          alert('An error occurred. Please try again later.');
+        });
+    });
+  </script>
+</body>
+
+</html>
